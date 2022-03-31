@@ -1,3 +1,4 @@
+# Moves all the grayscale images from one folder to another folder
 import os
 import shutil
 from tkinter import *
@@ -56,30 +57,47 @@ def moveImages(src_folder, dst_folder):
     if dst == "" or src == "":
         messagebox.showwarning(title="BW Image Mover", message="Input source and destination folders")
         return
-
     # Source and destination cannot be the same
     if dst == src:
         messagebox.showwarning(title="BW Image Mover", message="Source and destination folders must be different")
         return
-
     # Get the user to confirm
-    mstring = "Move files from " + src + " to " + dst + "?" # string must be set before putting it into message=
-    option = messagebox.askokcancel(title="BW Image Mover", message=mstring) # returns True or False
+    mstring = "Move files from " + src + " to " + dst + "?"  # string must be set before putting it into message=
+    option = messagebox.askokcancel(title="BW Image Mover", message=mstring)  # returns True or False
     if not option:
         return
 
     # iterate through directory, locate and move grayscale images
-    for file in os.listdir(src):
-        f_img = src + "/" + file
-        img = Image.open(f_img).convert('RGB')
-        # Gets the average color of a file
-        img = img.resize((1, 1), Image.ANTIALIAS)
-        imgcolor = img.getpixel((0, 0))
+    try:
+        for root, dirs, files in os.walk(src):
+            for name in files:
+                # Check if the the file is already in the destination folder, skip if so
+                if not os.path.samefile(dst, root):
+                    f_img = os.path.join(root, name)
+                    img = Image.open(f_img).convert('RGB')
+                    # Gets the average color of a file
+                    img = img.resize((1, 1), Image.ANTIALIAS)
+                    imgcolor = img.getpixel((0, 0))
 
-        # On the color slider if all three values are equal then it is grayscale
-        if imgcolor[0] == imgcolor[1] == imgcolor[2]:
-            shutil.move(f_img, dst)
+                    # On the color slider if all three values are equal then it is grayscale
+                    if imgcolor[0] == imgcolor[1] == imgcolor[2]:
+                        shutil.move(f_img, dst)
+        messagebox.showinfo(title="BW Image Mover", message="Done")
+
+    # Error handling
+    except FileNotFoundError:
+        messagebox.showwarning(title="BW Image Mover", message="Unable to locate folder")
+    except PermissionError as e:
+        messagebox.showwarning(title="BW Image Mover", message=e)
+    except Exception as e:
+        messagebox.showwarning(title="BW Image Mover", message=e)
+
 
 # Run
-test = UI()
-test.mainloop()
+def main():
+    mainframe = UI()
+    mainframe.mainloop()
+
+
+if __name__ == "__main__":
+    main()
