@@ -5,7 +5,7 @@ Simple script that locates grayscale images in a folder and moves them to anothe
 Takes the image and resizes it to one pixel using PIL. If all three values of the color are equal then it is grayscale.
 
 ## Installation 
-[Download](https://github.com/Brianto2/GrayscaleDetector/releases/tag/v1.0.0) and unzip the file
+[Download](https://github.com/Brianto2/GrayscaleDetector/releases/tag/v1.0.1) and unzip the file
 ## Usage
 * Run BW Detect.exe
 
