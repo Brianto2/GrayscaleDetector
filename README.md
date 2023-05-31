@@ -7,8 +7,13 @@ This Python script moves all grayscale images from a source folder to a destinat
 1. Clone the repository:
 git clone https://github.com/Vaedrenn/GrayscaleDetector.git
 
+or download from releases:
+https://github.com/Vaedrenn/GrayscaleDetector/releases/tag/v1.0.1
+
 2. Change into the project directory:
 cd GrayscaleDetector
+
+
 
 A GUI window will open with options to select the source folder and destination folder.
 
